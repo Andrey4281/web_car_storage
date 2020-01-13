@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>List of tasks</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: rgb(255, 235, 205)
+        }
+    </style>
+    <script>
+        function getAdverts() {
+            $.ajax({
+                url: '../data',
+                type: 'GET',
+                dataType: 'json',
+                complete: function (data) {
+                    var adverts = JSON.parse(data.responseText);
+                    addAdverts(adverts);
+                }
+            })
+        }
+
+        function addAdverts(adverts) {
+            var result = '';
+            for (var i = 0; i < adverts.length; i++) {
+                var flag = 'actively';
+                if (adverts[i].status) {
+                    flag = 'sales';
+                }
+                result += '<tr><td>' + adverts[i].id + '</td>'
+                    + '<td>' + adverts[i].user.login +'</td>'
+                    + '<td>' + adverts[i].user.phone +'</td>'
+                    + '<td>' + adverts[i].created +'</td>'
+                    + '<td>' + '<img src="../download?name=' + adverts[i].photo + '"' + ' width="100px" height="100px"/>' + '</td>'
+                    + '<td>' + adverts[i].description +'</td>'
+                    + '<td>' + flag +'</td>'
+                    + '<td>' + adverts[i].car.category +'</td>'
+                    + '<td>' + adverts[i].car.brand +'</td>'
+                    + '<td>' + adverts[i].car.engine +'</td>'
+                    + '<td>' + adverts[i].car.transmission +'</td>'
+                    + '<td>' + adverts[i].car.carcass +'</td></tr>';
+            }
+            var tbody = document.getElementById("adverts");
+            tbody.innerHTML = result;
+        }
+    </script>
+</head>
+<body>
+<script>
+    getAdverts();
+    setInterval("getAdverts();", 30000);
+</script>
+
+<div class="container">
+    <div align="center">
+        <h2>
+            Dear user! This is service for selling car. You can sign in or sign up to add you own adverts.
+        </h2>
+    </div>
+
+    <div>
+        <h3>
+        <a href="../signin">Sign in</a> &emsp;<a href="../signup">Sign up</a>
+        </h3>
+    </div>
+
+    <div>
+        <h2>List of adverts:</h2>
+        <table class="table table-striped" id="table">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>phone</th>
+                <th>created</th>
+                <th>photo</th>
+                <th>description</th>
+                <th>status</th>
+                <th>category</th>
+                <th>brand</th>
+                <th>engine</th>
+                <th>transmission</th>
+                <th>carcass</th>
+            </tr>
+            </thead>
+            <tbody id="adverts">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
