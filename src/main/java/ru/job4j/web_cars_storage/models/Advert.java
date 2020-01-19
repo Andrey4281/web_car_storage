@@ -25,10 +25,10 @@ public final class Advert {
     private String description;
     @Column(name="status")
     private boolean status;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_user", foreignKey = @ForeignKey(name="adverts_users_id_fk"), nullable = false)
     private User user;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_car", foreignKey = @ForeignKey(name="adverts_cars_id_fk"), nullable = false)
     private Car car;
 

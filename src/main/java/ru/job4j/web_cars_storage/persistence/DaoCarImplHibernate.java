@@ -16,16 +16,16 @@ public class DaoCarImplHibernate implements DaoCar {
     }
 
     @Override
-    public Car findCarByParameters(String category, String brand, String engine, String transmission, String carcass) {
+    public Car findCar(Car car) {
         return (Car) HibernateService.getInstance()
                 .executeQuery(session -> {
                     Car res = null;
                     List<Car> list = session.createQuery("from Car where category=:paramOne and brand=:paramTwo and engine=:paramThree and transmission=:paramFour and carcass=:paramFive")
-                            .setParameter("paramOne", category)
-                            .setParameter("paramTwo", brand)
-                            .setParameter("paramThree", engine)
-                            .setParameter("paramFour", transmission)
-                            .setParameter("paramFive", carcass)
+                            .setParameter("paramOne", car.getCategory())
+                            .setParameter("paramTwo", car.getBrand())
+                            .setParameter("paramThree", car.getEngine())
+                            .setParameter("paramFour", car.getTransmission())
+                            .setParameter("paramFive", car.getCarcass())
                             .list();
                     if (!list.isEmpty()) {
                         res = list.get(0);

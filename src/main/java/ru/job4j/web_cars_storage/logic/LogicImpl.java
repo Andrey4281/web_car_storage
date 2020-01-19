@@ -4,6 +4,8 @@ import ru.job4j.web_cars_storage.models.Advert;
 import ru.job4j.web_cars_storage.models.Car;
 import ru.job4j.web_cars_storage.models.User;
 import ru.job4j.web_cars_storage.persistence.*;
+import ru.job4j.web_cars_storage.service.ContentForCriteria;
+import ru.job4j.web_cars_storage.service.CriteriaForFilter;
 
 import java.util.List;
 
@@ -47,18 +49,13 @@ public class LogicImpl implements Logic {
     }
 
     @Override
-    public Car findCarByParameters(String category, String brand, String engine, String transmission, String carcass) {
-        return daoCar.findCarByParameters(category, brand, engine, transmission, carcass);
+    public Car findCar(Car car) {
+        return daoCar.findCar(car);
     }
 
     @Override
     public Advert findAdvertById(int id) {
         return daoAdvert.findAndvertById(id);
-    }
-
-    @Override
-    public List<Advert> getAllAdverts() {
-        return daoAdvert.getAllAdverts();
     }
 
     @Override
@@ -74,5 +71,10 @@ public class LogicImpl implements Logic {
     @Override
     public void deleteAdvert(int id) {
         daoAdvert.deleteAdvert(id);
+    }
+
+    @Override
+    public List<Advert> findAdvertsByCriteria(CriteriaForFilter criteria, ContentForCriteria content) {
+        return daoAdvert.findAdvertsByCriteria(criteria, content);
     }
 }

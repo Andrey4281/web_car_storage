@@ -17,8 +17,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         function getAdverts() {
+            var valueParamLastDay=$('#lastDay').prop('checked');
+            var valueParamWithPhoto = $('#withPhoto').prop('checked');
+            var valueParamBrand = $('#brand').val();
+
             $.ajax({
-                url: '${pageContext.servletContext.contextPath}/data',
+                url: '${pageContext.servletContext.contextPath}/data?lastDay='
+                + valueParamLastDay +'&withPhoto=' + valueParamWithPhoto
+                + '&brand=' + valueParamBrand,
                 type: 'GET',
                 dataType: 'json',
                 complete: function (data) {
@@ -56,7 +62,7 @@
 <body style="background-color: rgb(255, 235, 205)">
 <script>
     getAdverts();
-    setInterval("getAdverts();", 30000);
+    setInterval("getAdverts();", 3000);
 </script>
 
 <div class="container">
@@ -153,6 +159,38 @@
 
     <div>
         <h2>All adverts in system:</h2>
+        <div>
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="lastDay">Show last day:</label>
+                    <input type="checkbox" class="form-check-input" id="lastDay"/>
+                </div>
+                <div class="form-group">
+                    <label for="withPhoto">Show with photo:</label>
+                    <input type="checkbox" class="form-check-input" id="withPhoto"/>
+                </div>
+                <div class="form-group">
+                    <label for="brand">Brand:</label>
+                    <select name="brand" class="form-control" id="brand" placeholder="Choose brand">
+                        <option value="All">
+                            All
+                        </option>
+                        <option value="Mercedes">
+                            Mercedes
+                        </option>
+                        <option value="Muscovite">
+                            Muscovite
+                        </option>
+                        <option value="Volga">
+                            Volga
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="Show" class="btn btn-default" onclick="getAdverts();">
+                </div>
+            </form>
+        </div>
         <table class="table table-striped">
             <thead>
             <tr>

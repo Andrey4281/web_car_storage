@@ -86,11 +86,15 @@ public final class CreateNewAdvertServlet extends HttpServlet {
             User user = (User) req.getSession().getAttribute("user");
             for (FileItem item : items) {
                 if (!item.isFormField()) {
-                    File file = new File(Joiner.on(File.separator).join("imagesForCarStorage", "id_user_" + user.getId() + "_" + item.getName()));
-                    try (FileOutputStream out = new FileOutputStream(file)) {
-                        out.write(item.getInputStream().readAllBytes());
+                    if (!item.getName().trim().isEmpty()) {
+                        File file = new File(Joiner.on(File.separator).join("imagesForCarStorage", "id_user_" + user.getId() + "_" + item.getName()));
+                        try (FileOutputStream out = new FileOutputStream(file)) {
+                            out.write(item.getInputStream().readAllBytes());
+                        }
+                        advert.setPhoto("id_user_" + user.getId() + "_" + item.getName());
+                    } else {
+                        advert.setPhoto("empty");
                     }
-                    advert.setPhoto("id_user_" + user.getId() + "_" + item.getName());
                 } else if (item.getFieldName().equals("description")){
                     advert.setDescription(item.getString());
                 } else {
@@ -98,8 +102,7 @@ public final class CreateNewAdvertServlet extends HttpServlet {
                 }
             }
             advert.setUser(user);
-            Car carFromDataBase = logic.findCarByParameters(car.getCategory(),
-                    car.getBrand(), car.getEngine(), car.getTransmission(), car.getCarcass());
+            Car carFromDataBase = logic.findCar(car);
             if (carFromDataBase != null) {
                 advert.setCar(carFromDataBase);
                 logic.addAdvert(advert);
