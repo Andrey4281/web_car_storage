@@ -35,6 +35,12 @@ public final class User {
     public User() {
     }
 
+    public User(String login, String phone, String password) {
+        this.login = login;
+        this.phone = phone;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }

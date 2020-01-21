@@ -8,7 +8,7 @@ import ru.job4j.web_cars_storage.service.CriteriaForFilter;
 import java.util.List;
 
 public interface DaoAdvert {
-    void add(Advert advert);
+    int add(Advert advert);
     void updateAdvert(Advert advert);
     void deleteAdvert(int id);
     Advert findAndvertById(int id);

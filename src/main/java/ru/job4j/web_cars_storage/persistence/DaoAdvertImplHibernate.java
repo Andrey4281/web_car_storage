@@ -114,8 +114,8 @@ public class DaoAdvertImplHibernate implements DaoAdvert {
     }
 
     @Override
-    public void add(Advert advert) {
-        HibernateService.getInstance().executeUpdate(session -> session.save(advert));
+    public int add(Advert advert) {
+        return HibernateService.getInstance().executeQuery(session -> (Integer)session.save(advert));
     }
 
     @Override
